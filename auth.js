@@ -1,5 +1,5 @@
 const clientId = "1357966673193340989";
-const redirectUri = "https://denunciassinistry.netlify.app/";
+const redirectUri = "https://densinistry.netlify.app/";
 const scope = "identify email";
 const authEndpoint = "https://discord.com/api/oauth2/authorize";
 
