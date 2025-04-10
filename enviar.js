@@ -1,15 +1,34 @@
 const webhook = "https://discord.com/api/webhooks/1359899326872162594/FyLN2KjN46qA8DXYhY5-KWoAjsYaIud_88g8B73SGAAVEy1Aucs0BQGaiJ1ZTU58WOm1";
 const palavrasProibidas = ["palavrão1", "palavrão2", "desgraça", "lixo", "puta", "fdp", "merda", "caralho", "vagabundo"];
+const sightengineApiKey = "U9WnQxkoC2ditjbqELxsJ297WgS6a98e"; // Substitua pela sua chave da API Sightengine
 
 function containsBadWords(text) {
   const lower = text.toLowerCase();
   return palavrasProibidas.some(p => lower.includes(p));
 }
 
-function criarArquivoDenuncia(usuario, motivo, link) {
-  return new Blob([
-    `Usuário: ${usuario}\nMotivo: ${motivo}\nServidor denunciado: ${link}`
-  ], { type: 'text/plain' });
+async function verificarConteudoImproprio(files) {
+  for (let file of files) {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("api_key", sightengineApiKey);
+
+    // Verifica conteúdo impróprio nas imagens e vídeos
+    try {
+      const response = await fetch("https://api.sightengine.com/1.0/validate-image.json", {
+        method: "POST",
+        body: formData
+      });
+
+      const result = await response.json();
+      if (result && result.probability && result.probability > 0.9) { // Verifique a probabilidade do conteúdo ser impróprio
+        return true;
+      }
+    } catch (e) {
+      console.error("Erro ao verificar o conteúdo:", e);
+    }
+  }
+  return false;
 }
 
 async function enviarDenuncia() {
@@ -27,40 +46,17 @@ async function enviarDenuncia() {
     return;
   }
 
-  // Verificação de conteúdo impróprio
+  // Verificação de palavras proibidas
   if (containsBadWords(nome) || containsBadWords(motivo)) {
     alert("Sua denúncia contém palavrões ou conteúdo ilícito. Isso será enviado aos admins!");
+    return;
+  }
 
-    const formData = new FormData();
-    const txt = criarArquivoDenuncia(`${username} (${user_id})`, motivo, link);
-    formData.append("file", txt, "violacao.txt");
-
-    formData.append("payload_json", JSON.stringify({
-      content: `⚠️ **Denúncia com possível violação detectada!**`,
-      embeds: [{
-        title: "Usuário violou regras de denúncia",
-        fields: [
-          { name: "Usuário", value: username },
-          { name: "ID", value: user_id },
-          { name: "Motivo Enviado", value: motivo }
-        ]
-      }],
-      components: [{
-        type: 1,
-        components: [{
-          type: 2,
-          style: 4,
-          label: "Castigar por 5 minutos",
-          custom_id: "castigo_5min"
-        }]
-      }]
-    }));
-
-    await fetch(webhook, {
-      method: "POST",
-      body: formData
-    });
-
+  // Verificar conteúdo impróprio em imagens/vídeos
+  const temConteudoImproprio = await verificarConteudoImproprio(files);
+  if (temConteudoImproprio) {
+    document.getElementById("sucesso").style.display = "none";
+    alert("Tem algo inapropriado, por favor colabore!");
     return;
   }
 
@@ -104,4 +100,5 @@ async function enviarDenuncia() {
     alert("Erro ao enviar denúncia.");
     console.error(e);
   }
-}
+    }
+                  
