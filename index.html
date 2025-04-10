@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Denúncia - Sinistry</title>
+  <script defer src="auth.js"></script>
+  <script defer src="enviar.js"></script>
+  <style>
+    body {
+      background-color: #1c1c1c;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 40px;
+    }
+    button {
+      padding: 15px 30px;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin: 10px;
+    }
+    #loginBtn {
+      background-color: #7289da;
+      color: white;
+    }
+    #abrirDenuncia {
+      background-color: red;
+      color: black;
+    }
+    #linkDiscord {
+      background-color: #3c3c3c;
+      color: white;
+    }
+    #logoutBtn {
+      background-color: #444;
+      color: white;
+      display: none;
+    }
+    form {
+      display: none;
+      margin-top: 30px;
+    }
+    input, textarea {
+      width: 100%;
+      max-width: 400px;
+      margin: 10px auto;
+      padding: 10px;
+      border-radius: 5px;
+      border: none;
+      font-size: 16px;
+    }
+    #enviar {
+      background-color: red;
+      color: black;
+    }
+    #sucesso {
+      color: lightgreen;
+      margin-top: 15px;
+      display: none;
+    }
+    h1 {
+      font-size: 32px;
+      margin-bottom: 20px;
+    }
+    footer {
+      margin-top: 60px;
+      font-size: 14px;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+  <h1>SINISTRY</h1>
+
+  <button id="loginBtn">Login com Discord</button>
+  <button id="logoutBtn" onclick="logout()">Sair</button><br>
+
+  <button id="abrirDenuncia" style="display:none;" onclick="abrirFormulario()">Iniciar Denúncia</button><br>
+  <button id="linkDiscord" onclick="window.open('https://discord.gg/seuconvite', '_blank')">Entrar no nosso server</button>
+
+  <form id="formulario" enctype="multipart/form-data">
+    <h2>Faça sua denúncia de um servidor que pode estar fazendo algo ilícito</h2>
+    <input type="text" id="nome" placeholder="Nome da conta" required><br>
+    <textarea id="motivo" placeholder="Motivo da denúncia" required></textarea><br>
+    <input type="url" id="link" placeholder="Link do servidor denunciado" required><br>
+    <input type="file" id="midia" multiple><br>
+    <button type="button" id="enviar" onclick="enviarDenuncia()">Enviar denúncia</button>
+    <div id="sucesso">Denúncia enviada com sucesso!</div>
+  </form>
+
+  <footer>
+    MADE BY STOP
+  </footer>
+</body>
+</html>
