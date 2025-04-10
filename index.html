@@ -3,12 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Denúncia - Sinistry</title>
-  <script defer src="auth.js"></script>
-  <script defer src="enviar.js"></script>
+  <title>SINISTRY - Denúncia</title>
   <style>
     body {
-      background-color: #1c1c1c;
+      background-color: #2c2c2c;
       color: white;
       font-family: Arial, sans-serif;
       text-align: center;
@@ -20,28 +18,15 @@
       border: none;
       border-radius: 8px;
       cursor: pointer;
-      margin: 10px;
+      margin-top: 20px;
     }
-    #loginBtn {
+    #btnLogin {
       background-color: #7289da;
       color: white;
     }
-    #abrirDenuncia {
+    #enviar {
       background-color: red;
       color: black;
-    }
-    #linkDiscord {
-      background-color: #3c3c3c;
-      color: white;
-    }
-    #logoutBtn {
-      background-color: #444;
-      color: white;
-      display: none;
-    }
-    form {
-      display: none;
-      margin-top: 30px;
     }
     input, textarea {
       width: 100%;
@@ -52,47 +37,42 @@
       border: none;
       font-size: 16px;
     }
-    #enviar {
-      background-color: red;
-      color: black;
-    }
     #sucesso {
       color: lightgreen;
       margin-top: 15px;
       display: none;
-    }
-    h1 {
-      font-size: 32px;
-      margin-bottom: 20px;
-    }
-    footer {
-      margin-top: 60px;
-      font-size: 14px;
-      color: #aaa;
     }
   </style>
 </head>
 <body>
   <h1>SINISTRY</h1>
 
-  <button id="loginBtn">Login com Discord</button>
-  <button id="logoutBtn" onclick="logout()">Sair</button><br>
+  <button id="btnLogin" onclick="fazerLogin()">Entrar com Discord</button>
 
-  <button id="abrirDenuncia" style="display:none;" onclick="abrirFormulario()">Iniciar Denúncia</button><br>
-  <button id="linkDiscord" onclick="window.open('https://discord.gg/seuconvite', '_blank')">Entrar no nosso server</button>
-
-  <form id="formulario" enctype="multipart/form-data">
-    <h2>Faça sua denúncia de um servidor que pode estar fazendo algo ilícito</h2>
-    <input type="text" id="nome" placeholder="Nome da conta" required><br>
+  <form id="formulario" style="display:none;" enctype="multipart/form-data">
+    <h2>Denúncia</h2>
+    <input type="text" id="nome" placeholder="Seu nome no Discord" readonly><br>
     <textarea id="motivo" placeholder="Motivo da denúncia" required></textarea><br>
-    <input type="url" id="link" placeholder="Link do servidor denunciado" required><br>
+    <input type="url" id="link" placeholder="Link do servidor" required><br>
     <input type="file" id="midia" multiple><br>
     <button type="button" id="enviar" onclick="enviarDenuncia()">Enviar denúncia</button>
     <div id="sucesso">Denúncia enviada com sucesso!</div>
   </form>
 
-  <footer>
-    MADE BY STOP
-  </footer>
+  <script>
+    function fazerLogin() {
+      window.location.href = "https://discord.com/oauth2/authorize?client_id=1357966673193340989&response_type=code&redirect_uri=https%3A%2F%2Fdensinistry.netlify.app%2F&scope=identify";
+    }
+
+    // Mostra o formulário se o usuário estiver logado
+    const username = localStorage.getItem("username");
+    if (username) {
+      document.getElementById("btnLogin").style.display = "none";
+      document.getElementById("formulario").style.display = "block";
+      document.getElementById("nome").value = username;
+    }
+  </script>
+  <script src="auth.js"></script>
+  <script src="enviar.js"></script>
 </body>
 </html>
