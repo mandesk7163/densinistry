@@ -1,4 +1,4 @@
-const webhook = "https://discord.com/api/webhooks/1359843392120426632/0pF_gjBNUosYs8dqIOMuyel_N9f4mtKLxBzykEmJANTB1jsEhrRcgKzZNNlaZA8ve7er";
+const webhook = "https://discord.com/api/webhooks/1359899326872162594/FyLN2KjN46qA8DXYhY5-KWoAjsYaIud_88g8B73SGAAVEy1Aucs0BQGaiJ1ZTU58WOm1";
 const palavrasProibidas = ["palavrão1", "palavrão2", "desgraça", "lixo", "puta", "fdp", "merda", "caralho", "vagabundo"];
 
 function containsBadWords(text) {
